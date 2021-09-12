@@ -11,8 +11,6 @@
 
 請先向管理員獲取更改權限，否則更改將無法 Push 成功!!
 
-Heroku Git 專案：https://git.heroku.com/click-server-on-heroku.git
-
 ## 1. 提交 Git Commit 並部署到 Heroku
 
 ```bash
