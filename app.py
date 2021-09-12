@@ -44,6 +44,8 @@ blackList = ['Udeadbeefdeadbeefdeadbeefdeadbeef']
 ### Server API ###
 
 # 接收 LINE 的資訊，寫入
+
+
 @app.route("/lineWebhook", methods=['POST'])
 def callback():
     signature = request.headers['X-Line-Signature']
@@ -61,11 +63,15 @@ def callback():
     return 'OK'
 
 # 救護人員 視覺化 CLICK 網頁接口，唯讀
+
+
 @app.route("/view", methods=['GET'])
 def view():
     return render_template('index.html')
 
 # 提供給 ESP32 傳遞資訊 的 接口，寫入
+
+
 @app.route("/esp", methods=['POST', 'GET'])
 def esp():
     if request.method == 'POST':
@@ -74,8 +80,8 @@ def esp():
     elif request.method == 'GET':
         print(request)
         return 'Succeed : GET'
-    
-    # 未被伺服器處理， 
+
+    # 未被伺服器處理，
     abort(500)
 
 #########################################################################################
@@ -83,9 +89,10 @@ def esp():
 
 # Event Handle 事件處發函式
 # 當收到 LINE 的 MessageEvent (信息事件)，且信息是屬於 TextMessage (文字信息)的時候
+
+
 @handler.add(MessageEvent, message=TextMessage)
 def echo(event):
-
     '''
         event 格式
         event = {
@@ -101,23 +108,25 @@ def echo(event):
     '''
 
     # 若為 Line 官方傳遞之罐頭訊息，則跳過
-    if event.source.user_id == 'Udeadbeefdeadbeefdeadbeefdeadbeef':   return
+    if event.source.user_id == 'Udeadbeefdeadbeefdeadbeefdeadbeef':
+        return
 
     # 依 Reply Token 回傳訊息
     line_bot_api.reply_message(
         event.reply_token,
         StickerSendMessage(
-            package_id='1',
-            sticker_id='1'
+            package_id='446',
+            sticker_id='1988'
         )
     )
 
 #########################################################################################
 ### Main Function ###
 
+
 if __name__ == "__main__":
 
     # run the server, and set the server port to localhost://5000
-    
+
     # app.run(debug=True, host='127.0.0.1', port=5000)
     app.run(debug=True, host=HOST, port=PORT)

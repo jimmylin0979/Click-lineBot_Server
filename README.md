@@ -11,23 +11,18 @@
 
 請先向管理員獲取更改權限，否則更改將無法 Push 成功!!
 
+`預設有新歷史更新至 master 分支時，Heroku 皆會重新 Build Server`
+
 ## 1. 提交 Git Commit 並部署到 Heroku
 
 ```bash
 # 提交修改，進入歷史
 $ git add .
-$ git commit -m "Initialize Project"
+$ git commit
 
-# 更新至遠端 Heroku 的 master 分支
+# 更新至遠端 master 分支
 # PUSH 完之後應該會跑一大串，慢慢等吧~
-$ git push heroku master               # 提交到远程master分支
-```
-
-## 2. 啟動 Heroku 遠端程式，開始運作
-
-```bash
-# 開始進行運作，若成功執行，則架設成功
-$ heroku open
+$ git push -u origin master               # 提交到远程master分支
 ```
 
 #
