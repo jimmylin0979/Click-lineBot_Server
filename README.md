@@ -54,7 +54,7 @@ Click 硬體端 Repository： https://github.com/jimmylin0979/Click-Hardware.git
 
 請先向管理員獲取更改權限，否則更改將無法 Push 成功!!
 
-`預設有新歷史更新至 master 分支時，Heroku 皆會重新 Build Server，耗時約莫 1min 左右`
+`預設有新歷史更新至 deploy_on_heroku 分支時，Heroku 皆會重新 Build Server，耗時約莫 1min 左右`
 
 ### 1. 提交 Git Commit 並部署到 Heroku
 
