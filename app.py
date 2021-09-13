@@ -111,13 +111,34 @@ def echo(event):
     if event.source.user_id == 'Udeadbeefdeadbeefdeadbeefdeadbeef':
         return
 
+    buttons_template_message = TemplateSendMessage(
+        alt_text='Buttons template',
+        template=ButtonsTemplate(
+            thumbnail_image_url='https://example.com/image.jpg',
+            title='Menu',
+            text='Please select',
+            actions=[
+                PostbackAction(
+                    label='postback',
+                    display_text='postback text',
+                    data='action=buy&itemid=1'
+                ),
+                MessageAction(
+                    label='message',
+                    text='message text'
+                ),
+                URIAction(
+                    label='uri',
+                    uri='http://example.com/'
+                )
+            ]
+        )
+    )
+
     # 依 Reply Token 回傳訊息
     line_bot_api.reply_message(
         event.reply_token,
-        StickerSendMessage(
-            package_id='446',
-            sticker_id='1988'
-        )
+        buttons_template_message
     )
 
 #########################################################################################
