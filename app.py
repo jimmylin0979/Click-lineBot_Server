@@ -16,7 +16,7 @@ import os
 import configparser
 import random
 
-import lib.AEDMap.AEDMap as AEDMap
+import libs.AEDMap.AEDMap as AEDMap
 
 app = Flask(__name__)
 
@@ -91,10 +91,13 @@ def get_AEDMap():
 
     # TODO : 將 frm, des 由發送的之訊息獲得，如 LocationMessage
     # set the from & destination
-    frm = [33.698116, -117.851235]
-    des = [33.672133, -117.838617]
+    user_location = [22.6, 120.3]
 
-    return fmap.get_map(frm, des)
+    # roting from user_location to shortest AED place
+    des = fmap.get_Nearby_AEDLocation(user_location)[0]
+
+    # and draw a map in html
+    return fmap.get_Routing_Map(user_location, des.pos)
 
 #########################################################################################
 ### Line Event Handle Trigger ###

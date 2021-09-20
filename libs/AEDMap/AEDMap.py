@@ -3,7 +3,9 @@ import polyline
 import folium
 import sqlite3
 import pandas as pd
+import os.path
 
+########################################################################################################################
 class AEDInfo:
     def __init__(self, frm, idx, name, pos, tele) -> None:
         # START POSITION (USER LOCATION)
@@ -52,17 +54,18 @@ class AEDInfo:
     def __str__(self):
         return f"起點={self.frm},距離={self.distance},資訊=[{self.idx},{self.name},{self.pos},{self.tele}]\n"
 
+########################################################################################################################
+
 class AEDMap:
 
-#########################################################################################
 # CONSTRUCTOR
     def __init__(self) -> None:
         # Variable Initialization
         self.fmap = None
 
-        # DataBase filePath & Open the connection
-        DB_Name = 'AED.db'
-        self.conn = sqlite3.connect(DB_Name)
+        # DataBase filePath
+        BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+        self.db_path = os.path.join(BASE_DIR, "AED.db")
 
 #########################################################################################
 # PRIVATE 
@@ -85,41 +88,60 @@ class AEDMap:
 
         return res
 
-    def get_Neary_AEDLocation(self, pos):
+    def get_Nearby_AEDLocation(self, pos):
         '''
+            return the nearby AED location
 
+            @param pos
+                the user location
         '''
         # set the AED Searching Radius
         # the larger the radius is, the more time it executes 
         LAT_RADIUS = 0.5
         LNG_RADIUS = 0.5
 
+        # Nearby AED Location (class AEDInfo)
+        AED_Nearby_Locations = []
+
         # create cursor and do SQL command
-        cur = self.conn.cursor()
-        cur.execute(f'''
+        with sqlite3.connect(self.db_path) as conn:
+
+            cur = conn.cursor()
+            command = f'''
             SELECT * FROM AED
             WHERE {pos[0] - LAT_RADIUS} <= LAT AND LAT <= {pos[0] + LAT_RADIUS}   
                 AND {pos[1] - LNG_RADIUS} <= LNG AND LNG <= {pos[1] + LNG_RADIUS};
-        ''')
+            '''
+            # print(command)
+            cur.execute(command)
 
-        # fetch row data
-        AED_Nearby_Locations = []
-        rows = cur.fetchall()
-        for row in rows:
-            cur = AEDInfo(pos, row[0], row[1], [row[2], row[3]], row[4])
-            AED_Nearby_Locations.append(cur)
+            # fetch row data
+            rows = cur.fetchall()
+            for row in rows:
+                cur = AEDInfo(pos, row[0], row[1], [row[2], row[3]], row[4])
+                AED_Nearby_Locations.append(cur)
 
-        # sort the AED_Nearby_Locations by distance
-        # the shortest distance, the former it should be in the list
-        AED_Nearby_Locations.sort()
+            # sort the AED_Nearby_Locations by distance
+            # the shortest distance, the former it should be in the list
+            AED_Nearby_Locations.sort()
 
         return AED_Nearby_Locations
 
 #########################################################################################
 # PUBLIC 
 
-    def get_map(self, frm, des, mode="foot"):
-        
+    def get_Routing_Map(self, frm, des, mode="foot"):
+        '''
+            get the folium map that already routing from frm to des 
+
+            @param frm
+                starting position
+            @param des
+                ending position
+            @param mode
+                the method that user will go from frm to des, ex: foor, driving ...
+
+        '''
         # route 
         res = self.route(frm, des, mode=mode)
 
