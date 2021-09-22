@@ -1,5 +1,4 @@
 from __future__ import unicode_literals
-from logging import debug
 
 from flask import Flask, request, abort, render_template
 
@@ -14,7 +13,6 @@ from linebot.models import *
 
 import os
 import configparser
-import random
 
 import libs.AEDMap.AEDMap as AEDMap
 
