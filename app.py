@@ -1,5 +1,4 @@
 from __future__ import unicode_literals
-from abc import abstractproperty
 from logging import debug
 
 from flask import Flask, request, abort, render_template
@@ -17,16 +16,19 @@ import os
 import configparser
 import random
 
+import libs.AEDMap.AEDMap as AEDMap
 
 app = Flask(__name__)
 
 #########################################################################################
 ### Configuration Here ###
 
+############################
 # 讀取 Config.ini 設置檔
 config = configparser.ConfigParser()
 config.read('config.ini')
 
+############################
 # Flask 網站設定
 # 獲取 本地端 port 接口、 DEBUG 模式
 PORT = config.get('flask-server', 'server_port')
@@ -40,12 +42,15 @@ handler = WebhookHandler(config.get('line-bot', 'channel_secret'))
 # LineBot 拒絕對話與回應的 黑名單，如官方罐頭訊息等
 blackList = ['Udeadbeefdeadbeefdeadbeefdeadbeef']
 
+############################
+# AED 地圖，路徑規劃 與 可互動式地圖
+# Create a AEDMap object
+fmap = AEDMap.AEDMap()
+
 #########################################################################################
 ### Server API ###
 
 # 接收 LINE 的資訊，寫入
-
-
 @app.route("/lineWebhook", methods=['POST'])
 def callback():
     signature = request.headers['X-Line-Signature']
@@ -63,15 +68,11 @@ def callback():
     return 'OK'
 
 # 救護人員 視覺化 CLICK 網頁接口，唯讀
-
-
 @app.route("/view", methods=['GET'])
 def view():
     return render_template('index.html')
 
 # 提供給 ESP32 傳遞資訊 的 接口，寫入
-
-
 @app.route("/esp", methods=['POST', 'GET'])
 def esp():
     if request.method == 'POST':
@@ -83,6 +84,20 @@ def esp():
 
     # 未被伺服器處理，
     abort(500)
+
+# 提供 AED 查看地圖
+@app.route("/AEDMap", methods=['POST', 'GET'])
+def get_AEDMap():
+
+    # TODO : 將 frm, des 由發送的之訊息獲得，如 LocationMessage
+    # set the from & destination
+    user_location = [22.6, 120.3]
+
+    # roting from user_location to shortest AED place
+    des = fmap.get_Nearby_AEDLocation(user_location)[0]
+
+    # and draw a map in html
+    return fmap.get_Routing_Map(user_location, des.pos)
 
 #########################################################################################
 ### Line Event Handle Trigger ###
