@@ -113,19 +113,19 @@ def get_AEDMap():
 
 
 @handler.add(MessageEvent, message=TextMessage)
-def on_enter_Menu(event):
+def echo(event):
     '''
         event 格式
         event = {
-            "reply_token":"就是代表reply_token的一串亂碼",
+            "reply_token":"就是代表reply_token的一串亂碼", 
             "type":"message",
-            "timestamp":"1462629479859",
+            "timestamp":"1462629479859", 
             "source":{  "type":"user",
-                        "user_id":"就是代表user的一串亂碼"},
-            "message":{ "id":"就是代表這次message的一串代碼",
-                        "type":"text",
+                        "user_id":"就是代表user的一串亂碼"}, 
+            "message":{ "id":"就是代表這次message的一串代碼", 
+                        "type":"text", 
                         "text":"使用者傳來的文字信息內容"}
-        }
+        } 
     '''
 
     # 若為 Line 官方傳遞之罐頭訊息，則跳過
@@ -136,53 +136,35 @@ def on_enter_Menu(event):
         alt_text='Buttons template',
         template=ButtonsTemplate(
             thumbnail_image_url='https://example.com/image.jpg',
-            title='請問你需要什麽協助',
-            text='別擔心，我會提供您完善的引導！',
+            title='Menu',
+            text='Please select',
             actions=[
-                MessageAction(
-                    label='有人暈倒了，我帶怎麽...',
-                    text='呼叫定位精靈'
+                PostbackAction(
+                    label='postback',
+                    display_text='postback text',
+                    data='action=buy&itemid=1'
                 ),
                 MessageAction(
-                    label='最近的AED在哪裏？',
-                    text='呼叫AED地圖'
+                    label='message',
+                    text='message text'
                 ),
-                MessageAction(
-                    label='我想學習急救知識~',
-                    text='呼叫急救知識庫'
-                ),
+                URIAction(
+                    label='uri',
+                    uri='http://example.com/'
+                )
             ]
         )
     )
 
     # 依 Reply Token 回傳訊息
-    line_bot_api.reply_message(event.reply_token, buttons_template_message)
-    return "OK"
-
-    '''def is_going_to_user_location(event):'''
-
-
-def on_enter_call_119(event):
-    buttons_template_message = TemplateSendMessage(
-        alt_text='Buttons template',
-        template=ButtonsTemplate(
-            thumbnail_image_url='https://example.com/image.jpg',
-            title='119急難救助專綫',
-            text='24小時全年無休協助救援連線',
-            actions=[
-                MessageAction(
-                    label='撥打119緊急電話',
-                    text='動作1',
-                ),
-            ]
-        )
+    line_bot_api.reply_message(
+        event.reply_token,
+        buttons_template_message
     )
-    line_bot_api.reply_message(event.reply_token, buttons_template_message)
-    return "OK"
-
 
 #########################################################################################
 ### Main Function ###
+
 
 if __name__ == "__main__":
 
