@@ -66,9 +66,9 @@ def send_call_button(reply_token):
             title='119急難求助專線',
             text='24小時全年無休協助救援連線',
             actions=[
-                MessageAction(
+                URIAction(
                     label='撥打119緊急電話',
-                    text='119'
+                    uri='tel:0800000119'
                 ),
             ]
         )
