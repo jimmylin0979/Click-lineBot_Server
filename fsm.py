@@ -473,8 +473,8 @@ class TocMachine(GraphMachine):
         print("I'm entering press_guide")
         reply_token = event.reply_token
         msg = []
-        msg.append(ImageSendMessage(original_content_url='https://example.com/image.jpg',
-                                    preview_image_url='https://example.com/image.jpg'))
+        msg.append(ImageSendMessage(original_content_url='https://imgur.com/fLQQfgt.jpg',
+                                    preview_image_url='https://imgur.com/fLQQfgt.jpg'))
         msg.append(TextSendMessage(text=("掌心交叉，雙手打直")))
         msg.append(TextSendMessage(text=("掌根放置病患兩乳頭中點\n")))
         msg.append(TextSendMessage(text=("請問你想探索哪一類型的急救知識呢？")))
