@@ -62,7 +62,7 @@ def send_call_button(reply_token):
     button_template = TemplateSendMessage(
         alt_text="call_119",
         template=ButtonsTemplate(
-            thumbnail_image_url='https://example.com/image.jpg',
+            thumbnail_image_url='https://imgur.com/z9zec2G.jpg',
             title='119急難求助專線',
             text='24小時全年無休協助救援連線',
             actions=[
@@ -280,7 +280,7 @@ def send_Menu_button(reply_token):
     button_template = TemplateSendMessage(
         alt_text="Menu",
         template=ButtonsTemplate(
-            thumbnail_image_url='https://example.com/image.jpg',
+            thumbnail_image_url='https://imgur.com/Lmre7jA.jpg',
             title='請問你需要什麽協助',
             text='別擔心，我會提供您完善的引導！',
             actions=[
@@ -321,7 +321,6 @@ def send_self_study_carousel(reply_token):
             columns=[
                 CarouselColumn(
                     text="什麼樣的情況需要施行CPR及AED呢？",
-                    thumbnail_image_url="https://i.imgur.com/abO5djB.jpg",
                     actions=[
                         MessageTemplateAction(
                             label="點我看解答",
@@ -331,7 +330,6 @@ def send_self_study_carousel(reply_token):
                 ),
                 CarouselColumn(
                     text="為何不能幫患者叫救護車就好，還需要做這麼多的急救步驟呢？",
-                    thumbnail_image_url="https://i.imgur.com/6KZn20I.jpg",
                     actions=[
                         MessageTemplateAction(
                             label="點我看解答",
@@ -341,7 +339,6 @@ def send_self_study_carousel(reply_token):
                 ),
                 CarouselColumn(
                     text="什麽是CPR?",
-                    thumbnail_image_url="https://i.imgur.com/cuTMVcx.jpg",
                     actions=[
                         MessageTemplateAction(
                             label="點我看解答",
@@ -351,7 +348,6 @@ def send_self_study_carousel(reply_token):
                 ),
                 CarouselColumn(
                     text="什麽是ADE?",
-                    thumbnail_image_url="https://i.imgur.com/6KZn20I.jpg",
                     actions=[
                         MessageTemplateAction(
                             label="點我看解答",
@@ -361,7 +357,6 @@ def send_self_study_carousel(reply_token):
                 ),
                 CarouselColumn(
                     text="AED的具體步驟要怎麼操作呀？",
-                    thumbnail_image_url="https://i.imgur.com/6KZn20I.jpg",
                     actions=[
                         MessageTemplateAction(
                             label="點我看解答",
@@ -371,7 +366,6 @@ def send_self_study_carousel(reply_token):
                 ),
                 CarouselColumn(
                     text="要怎麼做才是滿分的CPR呢？",
-                    thumbnail_image_url="https://i.imgur.com/6KZn20I.jpg",
                     actions=[
                         MessageTemplateAction(
                             label="點我看解答",
@@ -381,7 +375,6 @@ def send_self_study_carousel(reply_token):
                 ),
                 CarouselColumn(
                     text="鄉土劇常看到執行「人工呼吸」的CPR，但為什麼現在的CPR步驟裡不用做人工呼吸呢？",
-                    thumbnail_image_url="https://i.imgur.com/6KZn20I.jpg",
                     actions=[
                         MessageTemplateAction(
                             label="點我看解答",
@@ -391,7 +384,6 @@ def send_self_study_carousel(reply_token):
                 ),
                 CarouselColumn(
                     text="聽說CPR會壓斷肋骨，這是真的嗎？",
-                    thumbnail_image_url="https://i.imgur.com/6KZn20I.jpg",
                     actions=[
                         MessageTemplateAction(
                             label="點我看解答",
@@ -401,7 +393,6 @@ def send_self_study_carousel(reply_token):
                 ),
                 CarouselColumn(
                     text="內衣的鋼圈會影響到CPR的施行和AED的電擊嗎？急救的時候需要解開嗎？",
-                    thumbnail_image_url="https://i.imgur.com/6KZn20I.jpg",
                     actions=[
                         MessageTemplateAction(
                             label="點我看解答",
@@ -411,7 +402,6 @@ def send_self_study_carousel(reply_token):
                 ),
                 CarouselColumn(
                     text="新聞常報導「救人反被告」的案例，協助急救會有什麼法律責任嗎？",
-                    thumbnail_image_url="https://i.imgur.com/6KZn20I.jpg",
                     actions=[
                         MessageTemplateAction(
                             label="點我看解答",
@@ -434,7 +424,7 @@ def send_outsideLink_button(reply_token, word):
     button_template = TemplateSendMessage(
         alt_text='outside_link',
         template=ButtonsTemplate(
-            thumbnail_image_url='https://example.com/image.jpg',
+            thumbnail_image_url='https://imgur.com/NFD1YHE.jpg',
             title='急救知識網站',
             text='還想了解更多的急救知識嗎？歡迎參考我們推薦的網站!',
             actions=[
