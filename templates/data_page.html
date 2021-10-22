@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>data page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .center {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .sidebar {
+            height: 100%;
+            width: 160px;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: #111;
+            overflow-x: hidden;
+            padding-top: 16px;
+        }
+
+        .sidebar a {
+            padding: 6px 8px 6px 16px;
+            text-decoration: none;
+            font-size: 30px;
+            color: rgb(82,66,54);
+            display: block;
+        }
+
+        .sidebar a:hover {
+            color: grey;
+        }
+
+        .data {
+            margin-left: 160px;
+            padding: 0px 10px;
+        }
+
+        @media screen and (max-height:450px) {
+            .sidebar {
+                padding-top: 15px;
+            }
+
+            .sidebar a {
+                font-size: 18px;
+            }
+        }
+
+        .breath{
+            height: 110px;
+            width: 300px;
+            background-color:white;
+        }
+
+        .breath_count{
+            position: absolute;
+            top: 100px;
+            left: 300px;
+        }
+        
+        .heart_title{
+            position: absolute;
+            top: 1px;
+            right: 290px;
+        }
+
+        .heart_count{
+            position: absolute;
+            top: 30px;
+            right: 120px;
+        }
+
+        .rate{
+            position: absolute;
+            top: 70px;
+            right: 90px;
+            height: 110px;
+            width: 300px;
+            background-color:white;      
+        }
+
+        .quality{
+            height:"";
+            width:"";
+            background-color:white;
+        }
+
+        @import url("https://fonts.googleapis.com/css?family=Roboto:100,400");
+
+        body {
+            background: #2f2f2f;
+        }
+
+        .background-half-round {
+            width: 300px;
+            height: 150px;
+            background: #232323;
+            margin: auto;
+            border-radius: 300px 300px 0 0;
+            border: 10px solid #f8f8f8;
+            border-bottom: 0;
+            box-shadow: inset 0 2px 5px #151515;
+            position: relative;
+        }
+
+        .background-half-round:after {
+            content: "";
+            width: 50px;
+            height: 25px;
+            position: absolute;
+            background: #2f2f2f;
+            display: block;
+            top: auto;
+            bottom: 0;
+            border-radius: 50px 50px 0 0;
+            box-shadow: inset 0px 3px 5px 0px #151515;
+
+            z-index: 5;
+            margin: auto;
+            left: 0;
+            right: 0;
+        }
+
+        .speed-number-wapper {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .speed-number {
+            color: #fff;
+            font-family: "Roboto";
+        }
+
+        .speed-number span:after {
+            content: "";
+            width: 2px;
+            height: 5px;
+            background: #fff;
+            position: relative;
+        }
+
+        .speed-60,
+        .speed-100,
+        .speed-120,
+        .speed-160 {
+            position: absolute;
+            bottom: 0;
+            width: 50%;
+        }
+        .speed-60 span {
+            padding: 0px 0px 0px 5px;
+        }
+
+        .speed-100 {
+            transform: rotate(45deg);
+            transform-origin: 100% 0%;
+        }
+
+        .speed-100 span {
+            transform: rotate(-45deg);
+            display: inline-block;
+            padding: 15px 0px 0px 15px;
+        }
+
+        .speed-110 {
+            margin: auto;
+            text-align: center;
+        }
+
+        .speed-120 {
+            transform: rotate(135deg);
+            transform-origin: 100% 25%;
+        }
+
+        .speed-120 span {
+            transform: rotate(-135deg);
+            display: inline-block;
+            padding: 0px 15px 0px 15px;
+            color: #ff4141;
+            font-weight: bold;
+        }
+
+        .speed-160 {
+            transform: rotate(180deg);
+            transform-origin: 100% 50%;
+        }
+
+        .speed-160 span {
+            transform: rotate(-180deg);
+            display: inline-block;
+            padding: 0px 5px 0px 0px;
+            color: #ff4141;
+            font-weight: bold;
+        }
+
+        .dashboard-icon{
+            width:20px;
+        }
+
+        .dashboard-icon svg{
+            fill: #4b4b4b;
+            position: absolute;
+            max-width: 45px;
+            margin: auto;
+            bottom: 15px;
+            left: 70px;
+        }
+
+        .dashboard-icon svg:hover{
+            fill: #ff4141;
+        }
+
+
+        /*指針*/
+        .pointer {
+            background: #ffa500;
+            width: 8px;
+            height: 140px;
+            border-radius: 10px;
+            transform: rotate(-90deg);
+            -ms-transform: rotate(-90deg); /*IE 9*/
+            -ms-transform-orgin: 50% 100%; /*IE 9*/
+            -webkit-transform: rotate(-90deg); /*safari 3-8*/
+            -webkit-transform-orgin: 50% 100%; /*safari 3-8*/
+            margin: auto;
+            transform-origin: 50% 100%;
+        }
+
+        .speed-ani {
+            animation: speeding  5s infinite alternate;
+        }
+
+        @keyframes speeding {
+            0% {
+                transform: rotate(-90deg);
+            }
+            5% {
+                transform: rotate(-85deg);
+            }
+            80% {
+                transform: rotate(80deg);
+            }
+            85% {
+                transform: rotate(85deg);
+            }
+            90% {
+                transform: rotate(80deg);
+            }
+            95% {
+                transform: rotate(90deg);
+            }
+            97% {
+                transform: rotate(90deg);
+            }
+            100% {
+                transform: rotate(92deg);
+            }
+        }
+    </style>
+</head>
+
+<body style="background-color:rgb(255,248,229);">
+    <div class="sidebar" style="background-color:white">
+        <img src="https://imgur.com/0ltw0Lm.jpg" width="130" height="100" class="center">
+        <a href="welcome"><i class="fa fa-fw fa-home"></i> 首頁</a>
+        <a href="#"><i class="fa fa-fw fa-bar-chart"></i> 數據</a>
+        <a href="#"><i class="fa fa-fw fa-cog"></i> 設定</a>
+    </div>
+
+    <div class="data" >
+        <h2 style="color:rgb(82,66,54);">呼吸速率</h2>
+        <div class="breath">
+            <div style="text-align:right" class="float_left">
+                <img src="https://imgur.com/bCGSCjB.jpg" alt="breath" width="100" height="100">
+            </div>
+            <div class="breath_count">
+                <h2 style="color:rgb(82,66,54);">次/分</h2>
+            </div>
+        </div>
+
+        <h2 class="heart_title" style="color:rgb(82,66,54);">心跳速率</h2>
+        <div class="rate">
+            <div style="text-align:right" class="float_left">
+                <img src="https://imgur.com/9YpGuIX.jpg"  alt="heart" width="100" height="100">
+            </div>
+            <div class="heart_count">
+                <h2 style="color:rgb(82,66,54);">次/分</h2>
+            </div>
+        </div>
+        
+        <h2 style="color:rgb(82,66,54);">按壓品質</h2>
+        <div class="quality">
+            <div class="bar">
+            </div>
+
+            <div class="background-half-round">
+                <div class="speed-number-wapper">
+                    <div class="speed-number speed-60">
+                        <span>60</span>
+                    </div>
+                    <div class="speed-number speed-100">
+                        <span>100</span>
+                    </div>
+                    <div class="speed-number speed-110">
+                        <span>110</span>
+                    </div>
+                    <div class="speed-number speed-120">
+                        <span>120</span>
+                    </div>
+                    <div class="speed-number speed-160">
+                        <span>160</span>
+                    </div>
+                </div>
+                <div class="dashboard-icon">
+                    <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 224.75 93.52"><path d="" transform="translate(-10.19 -1.92)"/></svg>
+                </div>
+                <div class="pointer speed-ani"></div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
