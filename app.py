@@ -78,6 +78,6 @@ def show_fsm():
 
 
 if __name__ == "__main__":
-    TocMachine().machine.get_graph().draw("fsm.png", prog="dot", format="png")
+    # TocMachine().machine.get_graph().draw("fsm.png", prog="dot", format="png")
     port = os.environ.get("PORT", 5000)
     app.run(host="127.0.0.1", port=port, debug=True)
