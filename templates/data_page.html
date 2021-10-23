@@ -266,7 +266,7 @@
 
 <body style="background-color:rgb(255,248,229);">
     <div class="sidebar" style="background-color:white">
-        <img src="https://imgur.com/0ltw0Lm.jpg" width="130" height="100" class="center">
+        <img src="{{url_for('static', filename='/0ltw0Lm.jpg')}}" width="130" height="100" class="center">
         <a href="welcome"><i class="fa fa-fw fa-home"></i> 首頁</a>
         <a href="#"><i class="fa fa-fw fa-bar-chart"></i> 數據</a>
         <a href="#"><i class="fa fa-fw fa-cog"></i> 設定</a>
@@ -276,20 +276,20 @@
         <h2 style="color:rgb(82,66,54);">呼吸速率</h2>
         <div class="breath">
             <div style="text-align:right" class="float_left">
-                <img src="https://imgur.com/bCGSCjB.jpg" alt="breath" width="100" height="100">
+                <img src="{{url_for('static', filename='/bCGSCjB.jpg')}}" alt="breath" width="100" height="100">
             </div>
             <div class="breath_count">
-                <h2 style="color:rgb(82,66,54);">次/分</h2>
+                <h2 style="color:rgb(82,66,54);">{{HtmlVar_Breath_Freq}} 次/分</h2>
             </div>
         </div>
 
         <h2 class="heart_title" style="color:rgb(82,66,54);">心跳速率</h2>
         <div class="rate">
             <div style="text-align:right" class="float_left">
-                <img src="https://imgur.com/9YpGuIX.jpg"  alt="heart" width="100" height="100">
+                <img src="{{url_for('static', filename='/9YpGuIX.jpg')}}"  alt="heart" width="100" height="100">
             </div>
             <div class="heart_count">
-                <h2 style="color:rgb(82,66,54);">次/分</h2>
+                <h2 style="color:rgb(82,66,54);">{{HtmlVar_HeartRate}} 次/分</h2>
             </div>
         </div>
         
@@ -324,5 +324,14 @@
         </div>
     </div>
 </body>
+
+<script>
+    function timedRefresh(timeoutPeriod) {
+        setTimeout("location.reload(true);",timeoutPeriod);
+    }
+    
+    window.onload = timedRefresh(1000);
+    
+</script>
 
 </html>

@@ -3,8 +3,9 @@ import sys
 import configparser
 
 #
-from flask import Flask, jsonify, request, abort, send_file
+from flask import Flask, jsonify, request, abort, send_file, render_template
 from dotenv import load_dotenv
+import json
 
 #
 from linebot import LineBotApi, WebhookParser
@@ -60,6 +61,13 @@ fmap = AEDMap.AEDMap()
 # Click 機台編號紀錄
 machine = {}
 
+############################
+# HTML 更新變數
+HtmlVar_CPR_Depth = 0
+HtmlVar_CPR_Freq = 0
+HtmlVar_Breath_Freq = 0
+HtmlVar_HeartRate = 0
+
 #########################################################################################
 
 @app.route("/webhook", methods=["POST"])
@@ -97,6 +105,14 @@ def webhook_handler():
     return "OK"
 
 
+# 對 data_page.html 進行變數更新，如心律、呼吸狀態
+@app.route('/data_page', methods=['GET', 'POST'])
+def data_page():
+    # print(HtmlVar_Breath_Freq)
+    # print(HtmlVar_HeartRate)
+    # TODO : 改以 Ajax 動態更新網頁，update html without refresh
+    return render_template('data_page.html', HtmlVar_Breath_Freq=HtmlVar_Breath_Freq, HtmlVar_HeartRate=HtmlVar_HeartRate)
+
 @app.route("/hello")
 def haha():
     return "hi"
@@ -105,10 +121,31 @@ def haha():
 @app.route("/esp", methods=['POST', 'GET'])
 def esp():
     if request.method == 'POST':
-        print(f'POST Message : {request.get_data(as_text=True)}')
+        '''
+        POST should receive json in this format
+        {
+            "CPR_Depth": 2,
+            "CPR_Freq": 1,
+            "Breath_Freq": 1,
+            "HeartRate": 120
+        }
+        '''
+        # 
+        recv = request.get_data(as_text=True)
+        recv = json.loads(recv)
+        print(f'{recv}')
+        
+        # 
+        global HtmlVar_CPR_Depth, HtmlVar_CPR_Freq, HtmlVar_Breath_Freq, HtmlVar_HeartRate
+        HtmlVar_CPR_Depth = recv['CPR_Depth']
+        HtmlVar_CPR_Freq = recv['CPR_Freq']
+        HtmlVar_Breath_Freq = recv['Breath_Freq']
+        HtmlVar_HeartRate = recv['HeartRate']
+
         return 'Succeed : POST'
+
     elif request.method == 'GET':
-        print(request)
+        print(f'{type(request)} : {request}')
         return 'Succeed : GET'
 
     # 未被伺服器處理，
