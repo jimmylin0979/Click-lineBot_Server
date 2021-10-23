@@ -66,7 +66,7 @@
     <div class="wrap">
         <div class="search">
             <input class="search-bar" type="text" placeholder="請輸入機台編號">
-            <button class="search-btn" type="button" onclick="javascript:location.href='data_page'"><i
+            <button class="search-btn" type="button" onclick="javascript:location.href='data_page.html'"><i
                     class="fa fa-fw fa-search"></i></button>
         </div>
     </div>
