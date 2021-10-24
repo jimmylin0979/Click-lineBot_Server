@@ -1,6 +1,7 @@
 import os
 import sys
 import configparser
+from random import randrange, randint
 
 #
 from flask import Flask, jsonify, request, abort, send_file, render_template
@@ -104,6 +105,31 @@ def webhook_handler():
 
     return "OK"
 
+#########################################################################################
+
+from pyecharts import options as opts
+from pyecharts.charts import Bar, Line, Gauge
+
+############################
+# 線性圖
+
+# 歷史趨勢圖 基底
+def LineChart_Prototype() -> Line:
+    line = (
+        Line()
+        .add_xaxis([0])
+        .add_yaxis(
+            series_name="",
+            y_axis=[0],
+            is_smooth=True,
+            label_opts=opts.LabelOpts(is_show=False),
+        )
+        .set_global_opts(
+            xaxis_opts=opts.AxisOpts(type_="value"),
+            yaxis_opts=opts.AxisOpts(type_="value"),
+        )
+    )
+    return line
 
 # 對 data_page.html 進行變數更新，如心律、呼吸狀態
 @app.route('/data_page', methods=['GET', 'POST'])
@@ -113,12 +139,85 @@ def data_page():
     # TODO : 改以 Ajax 動態更新網頁，update html without refresh
     return render_template('data_page.html', HtmlVar_Breath_Freq=HtmlVar_Breath_Freq, HtmlVar_HeartRate=HtmlVar_HeartRate)
 
-@app.route("/hello")
-def haha():
-    return "hi"
+# 資料點由 1 開始，原點 (0, 0)
+idx = 1
+
+# 
+@app.route("/lineChart")
+def get_line_chart():
+    c = LineChart_Prototype()
+    return c.dump_options_with_quotes()
+
+############################
+# 儀表板
+
+# 儀表板 基底
+def GaugeChart_Prototype() -> Gauge:
+    gauge = (
+        Gauge()
+        .add("", [("", 66.6)], 
+            min_=60, max_= 160, radius="80%", 
+            axisline_opts=opts.AxisLineOpts(
+                linestyle_opts=opts.LineStyleOpts(
+                    color=[(0.4, "#67e0e3"), (0.6, "#37a2da"), (1, "#fd666d")], width=30
+                )),
+        )
+        .set_global_opts(
+            title_opts=opts.TitleOpts(title=""),
+            xaxis_opts=opts.AxisOpts(type_="value"),
+            yaxis_opts=opts.AxisOpts(type_="value"),
+            legend_opts=opts.LegendOpts(is_show=True),
+            # visualmap_opts=opts.VisualMapOpts(
+            #     pieces=[
+            #         {"min":60, "max":100}, 
+            #         {"min":100, "max":120}, 
+            #         {"min":120, "max":160}, 
+            #     ]
+            # )
+        )
+    )
+    return gauge
+
+# 
+@app.route("/gaugeChart")
+def get_gauge_chart():
+    c = GaugeChart_Prototype()
+    return c.dump_options_with_quotes()
+
+############################
+# 深度 Bar
+
+def BarChart_Prototype() -> Bar:
+    bar = (
+        Bar()
+            .add_xaxis(["深度"])
+            .add_yaxis("A", [randint(10, 100)])
+            .set_global_opts(title_opts=opts.TitleOpts(title="", subtitle=""))
+            .set_series_opts(
+                label_opts=opts.LabelOpts(is_show=False),
+                markline_opts=opts.MarkLineOpts(
+                    data=[opts.MarkLineItem(y=50, name="yAxis=50")]
+                ))
+    )
+    return bar
+
+@app.route("/barChart")
+def get_bar_chart():
+    c = BarChart_Prototype()
+    return c.dump_options_with_quotes()
+
+############################
+# 以 Ajax 動態更新 網頁內容
+@app.route("/getDynamicData")
+def update_line_data():
+    global idx
+    idx = idx + 1
+    return jsonify({"name": idx, "Breath_Freq": 2, "HeartRate": 1, "CPR_Depth": randrange(50, 80), "CPR_Freq": randrange(100, 120)})
+
+#########################################################################################
 
 # 提供給 ESP32 傳遞資訊 的 接口，寫入
-@app.route("/esp", methods=['POST', 'GET'])
+@app.route("/esp", methods=['POST'])
 def esp():
     if request.method == 'POST':
         '''
@@ -144,12 +243,14 @@ def esp():
 
         return 'Succeed : POST'
 
-    elif request.method == 'GET':
-        print(f'{type(request)} : {request}')
-        return 'Succeed : GET'
+    # elif request.method == 'GET':
+    #     print(f'{type(request)} : {request}')
+    #     return 'Succeed : GET'
 
     # 未被伺服器處理，
     abort(500)
+
+#########################################################################################
 
 # 提供 AED 查看地圖
 @app.route("/AEDMap", methods=['POST', 'GET'])
