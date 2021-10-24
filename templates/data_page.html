@@ -308,10 +308,10 @@
         <h2 style="color:rgb(82,66,54);">按壓品質</h2>
         <div class="quality">
             <div class="quality_depth">
-                <div id="bar_depth" style="width:300px; height:300px;"></div>
+                <div id="bar_depth" style="width:600px; height:300px;"></div>
             </div>
             <div class="quality_freq">
-                <div id="bar_freq" style="width:300px; height:300px;"></div>
+                <div id="bar_freq" style="width:400px; height:300px;"></div>
             </div>
 
             <!-- <div class="background-half-round">
@@ -363,7 +363,7 @@
     function fetch_LineGraph() {
         $.ajax({
             type: "GET",
-            url: "http://127.0.0.1:5000/lineChart",
+            url: "https://click-server-on-heroku.herokuapp.com/lineChart",
             dataType: "json",
             success: function (result) {
                 chart_breath.setOption(result);
@@ -378,7 +378,7 @@
     function fetch_GaugeGraph() {
         $.ajax({
             type: "GET",
-            url: "http://127.0.0.1:5000/gaugeChart",
+            url: "https://click-server-on-heroku.herokuapp.com/gaugeChart",
             dataType: "json",
             success: function (result) {
                 chart_freq.setOption(result);
@@ -389,7 +389,7 @@
     function fetch_BarGraph() {
         $.ajax({
             type: "GET",
-            url: "http://127.0.0.1:5000/barChart",
+            url: "https://click-server-on-heroku.herokuapp.com/barChart",
             dataType: "json",
             success: function (result) {
                 chart_depth.setOption(result);
@@ -400,7 +400,7 @@
     function getDynamicData() {
         $.ajax({
             type: "GET",
-            url: "http://127.0.0.1:5000/getDynamicData",
+            url: "https://click-server-on-heroku.herokuapp.com/getDynamicData",
             dataType: "json",
             success: function (result) {
                 history_breath.push([result.name, result.Breath_Freq]);

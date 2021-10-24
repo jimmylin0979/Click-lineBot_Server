@@ -191,12 +191,16 @@ def BarChart_Prototype() -> Bar:
     bar = (
         Bar()
             .add_xaxis(["深度"])
-            .add_yaxis("A", [randint(10, 100)])
-            .set_global_opts(title_opts=opts.TitleOpts(title="", subtitle=""))
+            .add_yaxis("A", [0], bar_max_width=10)
+            .set_global_opts(
+                title_opts=opts.TitleOpts(title="", subtitle=""),
+                yaxis_opts=opts.AxisOpts(axislabel_opts=opts.LabelOpts(formatter="{value} cm")),
+            )
             .set_series_opts(
                 label_opts=opts.LabelOpts(is_show=False),
+                axis_opts=opts.AxisOpts(min_=0, max_=10),
                 markline_opts=opts.MarkLineOpts(
-                    data=[opts.MarkLineItem(y=50, name="yAxis=50")]
+                    data=[opts.MarkLineItem(y=5, name="yAxis=50")]
                 ))
     )
     return bar
@@ -212,7 +216,7 @@ def get_bar_chart():
 def update_line_data():
     global idx
     idx = idx + 1
-    return jsonify({"name": idx, "Breath_Freq": 2, "HeartRate": 1, "CPR_Depth": randrange(50, 80), "CPR_Freq": randrange(100, 120)})
+    return jsonify({"name": idx, "Breath_Freq": 2, "HeartRate": 1, "CPR_Depth": randrange(6, 8), "CPR_Freq": randrange(100, 120)})
 
 #########################################################################################
 
