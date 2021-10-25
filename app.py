@@ -9,9 +9,9 @@ from dotenv import load_dotenv
 import json
 
 #
-from linebot import LineBotApi, WebhookParser
+from linebot import LineBotApi, WebhookParser, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
-from linebot.models import MessageEvent, TextMessage, TextSendMessage
+from linebot.models import MessageEvent, TextMessage, TextSendMessage, LocationMessage
 
 #
 from fsm import TocMachine
@@ -36,6 +36,7 @@ config.read('config.ini')
 # LINE 聊天機器人的基本資料
 # 向 config.ini 讀取 channel_secret 及 channel_access_token
 line_bot_api = LineBotApi(config.get('line-bot', 'channel_access_token'))
+handler = WebhookHandler(config.get('line-bot', 'channel_secret'))
 parser = WebhookParser(config.get('line-bot', 'channel_secret'))
 
 # # get channel_secret and channel_access_token from your environment variable
@@ -86,12 +87,16 @@ def webhook_handler():
 
     # if event is MessageEvent and message is TextMessage, then echo text
     for event in events:
+
+        print(event)
+
         if not isinstance(event, MessageEvent):
             continue
-        if not isinstance(event.message, TextMessage):
+        if not isinstance(event.message, TextMessage) and not isinstance(event.message, LocationMessage): #or not isinstance(event.message, LocationMessage):
             continue
-        if not isinstance(event.message.text, str):
-            continue
+        
+        # if not isinstance(event.message.text, str):
+        #     continue
 
         user_id = event.source.user_id
         if user_id not in machine:
@@ -99,7 +104,12 @@ def webhook_handler():
 
         print(f"\nFSM STATE: {machine[user_id].state}")
         print(f"REQUEST BODY: \n{body}")
-        response = machine[user_id].advance(event)
+
+        if isinstance(event.message, TextMessage):
+            response = machine[user_id].advance(event)
+        elif isinstance(event.message, LocationMessage):
+            response = machine[user_id].outside(event)
+
         if response == False:
             send_go_to_menu_button(event.reply_token)
 
@@ -257,12 +267,16 @@ def esp():
 #########################################################################################
 
 # 提供 AED 查看地圖
-@app.route("/AEDMap", methods=['POST', 'GET'])
+@app.route("/AEDMap", methods=['GET', 'POST'])
 def get_AEDMap():
 
     # TODO : 將 frm, des 由發送的之訊息獲得，如 LocationMessage
     # set the from & destination
-    user_location = [22.6, 120.3]
+    user_location_lat =  float(request.args.get("lat"))
+    user_location_lng =  float(request.args.get("lng"))
+
+    user_location = [user_location_lat, user_location_lng]
+    print(user_location)
 
     # roting from user_location to shortest AED place
     des = fmap.get_Nearby_AEDLocation(user_location)[0]

@@ -22,6 +22,9 @@ class TocMachine(GraphMachine):
                     'not_beside_patient',
                     'call_119',
 
+                    # aed_location
+                    'return_aed_location_website',
+
                     # self_study 急救知識庫
                     'cpr_aed_condition',
                     'why_first_aid_important',
@@ -95,6 +98,14 @@ class TocMachine(GraphMachine):
                         'source': 'Menu',
                         'dest': 'press_guide',
                         'conditions': 'is_going_to_press_guide'
+                    },
+
+                    # aed_location
+                    {
+                        'trigger': 'outside',
+                        'source': 'aed_location',
+                        'dest': 'return_aed_location_website',
+                        'conditions': 'is_return_aed_location_website'
                     },
 
                     # user_location
@@ -264,12 +275,30 @@ class TocMachine(GraphMachine):
         text = event.message.text
         return "呼叫AED地圖" in text
 
+    def is_return_aed_location_website(self, event):
+        # TODO check whether the message type is LocationMessage
+        return True
+
     def on_enter_aed_location(self, event):
         print("I'm entering aed_location")
         reply_token = event.reply_token
-        msg = []
-        msg.append(TextSendMessage(text="請點選下方按鈕傳送當前定位！"))
-        msg.append(TextSendMessage(text="我將帶你前往最近的AED機台位置～"))
+        msg = TextSendMessage(text="我將帶你前往最近的AED機台位置～",
+                                        quick_reply=QuickReply(items=[QuickReplyButton(action=LocationAction(label="定位"))]))
+        line_bot_api.reply_message(reply_token, msg)
+    
+    def on_enter_return_aed_location_website(self, event):
+        print("I'm entering return_aed_location_website")
+        '''
+        {   "destination":"Uad88eda563b9e7358d5943e199951c11",
+            "events":[
+                {"type":"message",
+                "message":{"type":"location","id":"14972484585233","latitude":24.790973,"longitude":120.995567,"address":"183、, 東區新竹市台灣 300"},
+                "timestamp":1635161650017,
+                "source":{"type":"user","userId":"Ubecfd1045aa5b3db8110b425bc095c33"},
+                "replyToken":"153b289c957a4a1f8d1dcd23eb67e7bd","mode":"active"}]}
+        '''
+        reply_token = event.reply_token
+        msg = TextSendMessage(text=f"https://click-server-on-heroku.herokuapp.com/AEDMap?lat={event.message.latitude}&lng={event.message.longitude}")
         line_bot_api.reply_message(reply_token, msg)
 
     def go_back_themepark(self, event):
@@ -485,6 +514,7 @@ class TocMachine(GraphMachine):
     def is_going_to_fsm(self, event):
         text = event.message.text
         return "fsm" in str(text).lower()
+
 
     # on enter
     def on_enter_Menu(self, event):
