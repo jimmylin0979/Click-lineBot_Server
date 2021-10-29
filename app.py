@@ -226,7 +226,7 @@ def get_bar_chart():
 def update_line_data():
     global idx
     idx = idx + 1
-    return jsonify({"name": idx, "Breath_Freq": 2, "HeartRate": 1, "CPR_Depth": randrange(6, 8), "CPR_Freq": randrange(100, 120)})
+    return jsonify({"name": idx, "Breath_Freq": HtmlVar_Breath_Freq, "HeartRate": randrange(100, 120), "CPR_Depth": HtmlVar_CPR_Depth, "CPR_Freq": HtmlVar_CPR_Freq})
 
 #########################################################################################
 

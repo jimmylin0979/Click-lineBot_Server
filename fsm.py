@@ -168,7 +168,7 @@ class TocMachine(GraphMachine):
                     {
                         'trigger': 'advance',
                         'source': 'self_study',
-                        'dest': 'cpe_break_bone',
+                        'dest': 'cpr_break_bone',
                         'conditions': 'is_going_to_cpr_break_bone'
                     },
                     {
