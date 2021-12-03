@@ -226,14 +226,15 @@ def get_bar_chart():
 def update_line_data():
     global idx
     idx = idx + 1
-    return jsonify({"name": idx, "Breath_Freq": HtmlVar_Breath_Freq, "HeartRate": randrange(100, 120), "CPR_Depth": HtmlVar_CPR_Depth, "CPR_Freq": HtmlVar_CPR_Freq})
+    # return jsonify({"name": idx, "Breath_Freq": randrange(60, 80), "HeartRate": randrange(100, 120), "CPR_Depth": randrange(6, 8), "CPR_Freq": randrange(100, 120)})
+    return jsonify({"name": idx, "Breath_Freq": HtmlVar_Breath_Freq, "HeartRate": HtmlVar_HeartRate, "CPR_Depth": HtmlVar_CPR_Depth, "CPR_Freq": HtmlVar_CPR_Freq})
 
 #########################################################################################
 
 # 提供給 ESP32 傳遞資訊 的 接口，寫入
 @app.route("/esp", methods=['POST'])
 def esp():
-    if request.method == 'POST':
+    if request.method == 'POST':    
         '''
         POST should receive json in this format
         {

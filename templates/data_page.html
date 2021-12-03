@@ -289,12 +289,12 @@
     </div>
 
     <div class="data" >
-        <h2 style="color:rgb(82,66,54);">呼吸速率</h2>
+        <h2 style="color:rgb(82,66,54);">呼吸狀況</h2>
         <div class="breath">
             <div id="bar_breath" style="width:600px; height:300px;"></div>
         </div>
 
-        <h2 class="heart_title" style="color:rgb(82,66,54);">心跳速率</h2>
+        <h2 class="heart_title" style="color:rgb(82,66,54);">心跳狀況</h2>
         <div class="rate">
             <div id="bar_rate" style="width:600px; height:300px;"></div>
             <!-- <div style="text-align:right" class="float_left">
@@ -363,7 +363,7 @@
     function fetch_LineGraph() {
         $.ajax({
             type: "GET",
-            url: "https://click-server-on-heroku.herokuapp.com/lineChart",
+            url: "https://128b-1-200-12-1.ngrok.io/lineChart",
             dataType: "json",
             success: function (result) {
                 chart_breath.setOption(result);
@@ -378,7 +378,7 @@
     function fetch_GaugeGraph() {
         $.ajax({
             type: "GET",
-            url: "https://click-server-on-heroku.herokuapp.com/gaugeChart",
+            url: "https://128b-1-200-12-1.ngrok.io/gaugeChart",
             dataType: "json",
             success: function (result) {
                 chart_freq.setOption(result);
@@ -389,7 +389,7 @@
     function fetch_BarGraph() {
         $.ajax({
             type: "GET",
-            url: "https://click-server-on-heroku.herokuapp.com/barChart",
+            url: "https://128b-1-200-12-1.ngrok.io/barChart",
             dataType: "json",
             success: function (result) {
                 chart_depth.setOption(result);
@@ -400,7 +400,7 @@
     function getDynamicData() {
         $.ajax({
             type: "GET",
-            url: "https://click-server-on-heroku.herokuapp.com/getDynamicData",
+            url: "https://128b-1-200-12-1.ngrok.io/getDynamicData",
             dataType: "json",
             success: function (result) {
                 history_breath.push([result.name, result.Breath_Freq]);
